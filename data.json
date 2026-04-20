@@ -84,9 +84,7 @@
     "name": "Ionela Oprea",
     "role": "Director centru Iași",
     "manager": "n9",
-    "additionalManagers": [
-      "n30"
-    ],
+    "additionalManagers": ["n30"],
     "customColor": "attention"
   },
   {
@@ -122,13 +120,25 @@
   },
   {
     "id": "n20",
-    "name": "Adrian Nitoiu / Stefan Dogaru",
+    "name": "Adrian Nitoiu",
+    "role": "Instructori",
+    "manager": "n17"
+  },
+  {
+    "id": "n20b",
+    "name": "Stefan Dogaru",
     "role": "Instructori",
     "manager": "n17"
   },
   {
     "id": "n21",
-    "name": "Cosmin Candoi / Razvan Nedu",
+    "name": "Cosmin Candoi",
+    "role": "Antrenori",
+    "manager": "n17"
+  },
+  {
+    "id": "n21b",
+    "name": "Razvan Nedu",
     "role": "Antrenori",
     "manager": "n17"
   },
@@ -158,13 +168,25 @@
   },
   {
     "id": "n26",
-    "name": "Adrian Ciobanu / Florin Herciu",
+    "name": "Adrian Ciobanu",
+    "role": "Lucrator social/monitor",
+    "manager": "n24"
+  },
+  {
+    "id": "n26b",
+    "name": "Florin Herciu",
     "role": "Lucrator social/monitor",
     "manager": "n24"
   },
   {
     "id": "n27",
-    "name": "Denisa / Florin",
+    "name": "Denisa",
+    "role": "Receptioner",
+    "manager": "n14"
+  },
+  {
+    "id": "n27b",
+    "name": "Florin",
     "role": "Receptioner",
     "manager": "n14"
   },
