@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organigramă Climb Again — Apr 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --surface2: #f0ede8;
+    --border: #e2ddd6;
+    --border2: #ccc7be;
+    --text: #1a1814;
+    --text2: #6b6560;
+    --text3: #9e9890;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0ea;
+    --accent2: #8b4513;
+    --danger: #c0392b;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 56px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo {
+    font-weight: 600; font-size: 15px; letter-spacing: -0.3px;
+    color: var(--accent);
+  }
+  .logo span { color: var(--text2); font-weight: 400; }
+  .toolbar { display: flex; gap: 8px; margin-left: auto; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 1px solid var(--border2);
+    background: var(--surface); color: var(--text);
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .btn:hover { background: var(--surface2); border-color: var(--text3); }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #234a30; }
+  .btn-danger { color: var(--danger); border-color: #e8c4c0; }
+  .btn-danger:hover { background: #fdf0ef; }
+  .btn svg { flex-shrink: 0; }
+
+  /* TABS */
+  .tabs {
+    display: flex; gap: 2px; padding: 0 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    padding: 10px 18px; font-size: 13px; font-weight: 500;
+    border: none; background: none; cursor: pointer;
+    color: var(--text2); border-bottom: 2px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* CHART PANEL */
+  #panel-chart {
+    padding: 24px;
+    min-height: calc(100vh - 105px);
+  }
+  #chart-scroll {
+    overflow: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    min-height: 400px;
+  }
+  #chart-svg-wrap { padding: 24px; }
+  svg { display: block; }
+  .node-group { cursor: pointer; }
+  .node-group:hover .node-rect { filter: brightness(0.96); }
+  .node-group:hover .node-ring { opacity: 1; }
+  .node-ring { opacity: 0; transition: opacity 0.15s; }
+
+  /* IMPORT PANEL */
+  #panel-import { max-width: 720px; margin: 40px auto; padding: 0 24px; }
+  .import-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow);
+  }
+  .import-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .import-card p { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+  .code-hint {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: var(--text2); margin-bottom: 16px; line-height: 1.8;
+  }
+  textarea {
+    width: 100%; height: 200px; padding: 12px;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    background: var(--surface2); color: var(--text);
+    resize: vertical; outline: none;
+    transition: border-color 0.15s;
+  }
+  textarea:focus { border-color: var(--accent); }
+  .import-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+  /* TABLE PANEL */
+  #panel-table { padding: 24px; }
+  .table-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead { background: var(--surface2); }
+  th {
+    padding: 10px 16px; text-align: left; font-weight: 500;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px;
+    color: var(--text2); border-bottom: 1px solid var(--border);
+  }
+  td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td input, td select {
+    width: 100%; padding: 4px 8px; font-size: 12px; font-family: 'DM Sans', sans-serif;
+    border: 1px solid transparent; border-radius: 4px;
+    background: transparent; color: var(--text);
+  }
+  td input:focus, td select:focus {
+    outline: none; border-color: var(--accent);
+    background: var(--surface); box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+  }
+  td select { cursor: pointer; }
+  .del-btn {
+    background: none; border: none; cursor: pointer; color: var(--text3);
+    padding: 4px 8px; border-radius: 4px; font-size: 16px; line-height: 1;
+  }
+  .del-btn:hover { color: var(--danger); background: #fdf0ef; }
+  .add-row-btn {
+    display: block; width: 100%; padding: 12px;
+    background: none; border: none; border-top: 1px solid var(--border);
+    cursor: pointer; font-size: 13px; color: var(--text2);
+    font-family: 'DM Sans', sans-serif; text-align: left; padding-left: 16px;
+    transition: all 0.15s;
+  }
+  .add-row-btn:hover { background: var(--surface2); color: var(--accent); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.4); align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: var(--radius);
+    padding: 24px; width: 360px; max-width: 90vw;
+    box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+  }
+  .modal h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); font-weight: 500; margin-bottom: 5px; }
+  .field input, .field select {
+    width: 100%; padding: 8px 12px; border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); font-size: 13px; font-family: 'DM Sans', sans-serif;
+    background: var(--surface2); color: var(--text); outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,90,61,0.1); }
+  .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+
+  /* COLOR SWATCHES */
+  .color-swatches { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 4px; }
+  .swatch {
+    width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+    border: 2px solid transparent; transition: transform 0.1s, border-color 0.1s;
+    flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.active { border-color: var(--text); transform: scale(1.15); }
+  .swatch-clear {
+    width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+    border: 1.5px dashed var(--border2); background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--text3); transition: border-color 0.1s;
+    flex-shrink: 0; line-height: 1;
+  }
+  .swatch-clear:hover { border-color: var(--text2); color: var(--text2); }
+
+  /* BADGE */
+  .depth-badge {
+    display: inline-block; font-size: 10px; padding: 2px 7px;
+    border-radius: 20px; font-weight: 500; margin-left: 6px;
+    background: var(--accent-light); color: var(--accent);
+  }
+
+  /* TOAST */
+  #toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    background: var(--text); color: #fff; padding: 10px 18px;
+    border-radius: var(--radius-sm); font-size: 13px;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.25s; pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Climb Again <span>/ Organigramă</span></div>
+  <div class="toolbar">
+    <button class="btn" onclick="addNode()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Adaugă
+    </button>
+    <button class="btn btn-primary" onclick="exportCSV()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 10v1a1 1 0 001 1h8a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Export CSV
+    </button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('chart')">Organigramă</button>
+  <button class="tab-btn" onclick="switchTab('table')">Tabel editabil</button>
+  <button class="tab-btn" onclick="switchTab('import')">Import CSV</button>
+</div>
+
+<div id="panel-chart" class="panel active">
+  <div id="chart-scroll"><div id="chart-svg-wrap"></div></div>
+</div>
+
+<div id="panel-table" class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Nume</th><th>Titlu / Rol</th><th>Raportează la</th><th></th></tr></thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <button class="add-row-btn" onclick="addNode()">+ Adaugă angajat</button>
+  </div>
+</div>
+
+<div id="panel-import" class="panel">
+  <div class="import-card">
+    <h2>Import din CSV / spreadsheet</h2>
+    <p>Copiază coloanele direct din Google Sheets sau Excel. Fiecare rând = un angajat.<br>Lasă Manager gol pentru CEO / root.</p>
+    <div class="code-hint">Nume, Titlu, Manager<br>Ana Pop, CEO,<br>Ion Stan, CTO, Ana Pop</div>
+    <textarea id="import-input" placeholder="Lipește datele aici..."></textarea>
+    <div class="import-actions">
+      <button class="btn btn-primary" onclick="doImport()">Importă</button>
+      <button class="btn" onclick="loadSample()">Încarcă exemplu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3 id="modal-title">Editează angajat</h3>
+    <div class="field"><label>Nume</label><input id="f-name" type="text"></div>
+    <div class="field"><label>Titlu / Rol</label><input id="f-role" type="text"></div>
+    <div class="field"><label>Raportează la</label><select id="f-manager"></select></div>
+    <div class="field">
+      <label>Culoare nod</label>
+      <div class="color-swatches" id="color-swatches"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveEdit()">Salvează</button>
+      <button class="btn btn-danger" onclick="deleteNode()">Șterge</button>
+      <button class="btn" onclick="closeModal()">Anulează</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let nodes = [
+  {id:'n1', name:'Claudiu Miu', role:'Președinte', manager:''},
+  {id:'n2', name:'Daniel Mihalache', role:'Director Dezvoltare', manager:'n1'},
+  {id:'n3', name:'Cristina Pascanu', role:'Director fundraising', manager:'n1'},
+  {id:'n4', name:'Violeta Rusu', role:'Corporate Fundraising', manager:'n3'},
+  {id:'n5', name:'Daniela Carabus', role:'Manager Fundraising', manager:'n3'},
+  {id:'n6', name:'Mona Calinescu', role:'Director/manager comunicare', manager:'n3'},
+  {id:'n7', name:'Andreea Bucurica', role:'Specialist comunicare', manager:'n6'},
+  {id:'n8', name:'Andreea Cucu', role:'Specialist comunicare', manager:'n6'},
+  {id:'n9', name:'Antoaneta Barbu', role:'Director program dizabilitate + lot', manager:'n1'},
+  {id:'n10', name:'Alina Nedelcu', role:'Manager dizab', manager:'n9'},
+  {id:'n11', name:'TBH', role:'Manager commercial', manager:'n9'},
+  {id:'n12', name:'Constantin Voicescu', role:'Kinetoterapeut', manager:'n9'},
+  {id:'n13', name:'Gratiela Dan', role:'Manager dizab', manager:'n9'},
+  {id:'n14', name:'Ionela Oprea', role:'Director centru Iași', manager:'n9'},
+  {id:'n15', name:'Liliana Badea', role:'Femeie de serviciu', manager:'n10'},
+  {id:'n16', name:'Cristina Pisica', role:'Lucrator social (instructor TSA)', manager:'n10'},
+  {id:'n17', name:'Ana Nedelcu', role:'Manager commercial București', manager:'n11'},
+  {id:'n18', name:'Noris Popovici', role:'Receptioner Arad', manager:'n11'},
+  {id:'n19', name:'Georgeta Ghengea', role:'Receptioner', manager:'n17'},
+  {id:'n20', name:'Adrian Nitoiu / Stefan Dogaru', role:'Instructori', manager:'n17'},
+  {id:'n21', name:'Cosmin Candoi / Razvan Nedu', role:'Antrenori', manager:'n17'},
+  {id:'n22', name:'Daniel Trusca', role:'Lucrator social (instructor)', manager:'n17'},
+  {id:'n23', name:'Alexandra?', role:'Manager dizab', manager:'n14'},
+  {id:'n24', name:'Florin Mirea', role:'Coordonator administrativ', manager:'n14'},
+  {id:'n25', name:'Daniel Andrei', role:'Instructor', manager:'n24'},
+  {id:'n26', name:'Adrian Ciobanu / Florin Herciu', role:'Lucrator social/monitor', manager:'n24'},
+  {id:'n27', name:'Denisa / Florin', role:'Receptioner', manager:'n14'},
+  {id:'n28', name:'Adrian Badea', role:'Functie?', manager:'n1'},
+  {id:'n29', name:'Radu Ionescu', role:'', manager:'n1'},
+];
+
+let editId = null;
+let idCounter = 30;
+
+function nid() { return 'n' + (idCounter++); }
+
+function getNode(id) { return nodes.find(n => n.id === id); }
+
+function getDepth(id, memo = {}) {
+  if (memo[id] !== undefined) return memo[id];
+  const n = getNode(id);
+  if (!n || !n.manager) return memo[id] = 0;
+  return memo[id] = 1 + getDepth(n.manager, memo);
+}
+
+function trunc(s, len) { return s && s.length > len ? s.slice(0, len - 1) + '…' : (s || ''); }
+
+function initials(name) {
+  return name.split(/[\s\/]+/).map(w => w[0] || '').join('').slice(0, 2).toUpperCase();
+}
+
+const PALETTES = [
+  {key:'blue',   fill:'#ddeeff', fillBold:'#b3d0f5', stroke:'#2a5fa5', text:'#1a3660', sub:'#2a5fa5', avatar:'#2a5fa5', avtext:'#fff'},
+  {key:'green',  fill:'#d9f0e2', fillBold:'#a8d9be', stroke:'#2d5a3d', text:'#1a3d26', sub:'#2d5a3d', avatar:'#2d5a3d', avtext:'#fff'},
+  {key:'orange', fill:'#fde7cc', fillBold:'#f8c896', stroke:'#a0521a', text:'#5c2e0a', sub:'#a0521a', avatar:'#a0521a', avtext:'#fff'},
+  {key:'purple', fill:'#ede7fa', fillBold:'#d2c5f5', stroke:'#6b3fb5', text:'#3a1e70', sub:'#6b3fb5', avatar:'#6b3fb5', avtext:'#fff'},
+  {key:'red',    fill:'#fdd7d7', fillBold:'#f8a8a8', stroke:'#b53030', text:'#6e1a1a', sub:'#b53030', avatar:'#b53030', avtext:'#fff'},
+  {key:'yellow', fill:'#fef2cc', fillBold:'#fde08a', stroke:'#a07a00', text:'#5c4500', sub:'#a07a00', avatar:'#a07a00', avtext:'#fff'},
+  {key:'pink',   fill:'#fce0f0', fillBold:'#f8b5db', stroke:'#a0207a', text:'#5c0e45', sub:'#a0207a', avatar:'#a0207a', avtext:'#fff'},
+];
+const SWATCH_COLORS = [
+  {key:'blue', circle:'#2a5fa5'}, {key:'green', circle:'#2d5a3d'},
+  {key:'orange', circle:'#a0521a'}, {key:'purple', circle:'#6b3fb5'},
+  {key:'red', circle:'#b53030'}, {key:'yellow', circle:'#a07a00'},
+  {key:'pink', circle:'#a0207a'}, {key:'gray', circle:'#5a5550'},
+];
+const ROOT_PALETTE = {key:'gray', fill:'#ece9e4', fillBold:'#d5d0c8', stroke:'#5a5550', text:'#1a1814', sub:'#6b6560', avatar:'#3a3530', avtext:'#fff'};
+
+function paletteByKey(key) {
+  if (!key) return null;
+  if (key === 'gray') return ROOT_PALETTE;
+  return PALETTES.find(p => p.key === key) || null;
+}
+
+function buildBranchMap() {
+  const branchMap = {};
+  const roots = nodes.filter(n => !n.manager);
+  if (!roots.length) return branchMap;
+  const root = roots[0];
+  branchMap[root.id] = -1;
+  const rootChildren = nodes.filter(n => n.manager === root.id);
+  rootChildren.forEach((child, i) => { branchMap[child.id] = i % PALETTES.length; });
+  const queue = [...rootChildren];
+  while (queue.length) {
+    const cur = queue.shift();
+    nodes.filter(n => n.manager === cur.id).forEach(c => {
+      branchMap[c.id] = branchMap[cur.id];
+      queue.push(c);
+    });
+  }
+  return branchMap;
+}
+
+function hasChildren(id) { return nodes.some(n => n.manager === id); }
+
+function getPalette(n, branchMap) {
+  if (n.customColor) { const p = paletteByKey(n.customColor); if (p) return p; }
+  const bi = branchMap[n.id];
+  return (bi === undefined || bi < 0) ? ROOT_PALETTE : PALETTES[bi];
+}
+
+function renderChart() {
+  const wrap = document.getElementById('chart-svg-wrap');
+  if (!nodes.length) { wrap.innerHTML = '<p style="padding:40px;color:#999;font-size:13px">Nicio dată. Importă un CSV.</p>'; return; }
+
+  const memo = {};
+  nodes.forEach(n => getDepth(n.id, memo));
+  const maxD = Math.max(...nodes.map(n => memo[n.id] || 0));
+  const byLevel = {};
+  nodes.forEach(n => { const d = memo[n.id] || 0; (byLevel[d] || (byLevel[d] = [])).push(n); });
+
+  const NW = 164, NH = 68, GX = 18, GY = 88;
+  const maxInLevel = Math.max(...Object.values(byLevel).map(a => a.length));
+  const svgW = Math.max(800, maxInLevel * (NW + GX) + 60);
+  const svgH = (maxD + 1) * (NH + GY) + 60;
+
+  const pos = {};
+  for (let d = 0; d <= maxD; d++) {
+    const lvl = byLevel[d] || [];
+    const totalW = lvl.length * NW + (lvl.length - 1) * GX;
+    const sx = (svgW - totalW) / 2;
+    lvl.forEach((n, i) => { pos[n.id] = { x: sx + i * (NW + GX), y: d * (NH + GY) + 40 }; });
+  }
+
+  const branchMap = buildBranchMap();
+  let lines = '', boxes = '';
+
+  nodes.forEach(n => {
+    if (!n.manager || !pos[n.id] || !pos[n.manager]) return;
+    const p = pos[n.manager], c = pos[n.id];
+    const x1 = p.x + NW / 2, y1 = p.y + NH;
+    const x2 = c.x + NW / 2, y2 = c.y;
+    const mid = (y1 + y2) / 2;
+    const pal = getPalette(n, branchMap);
+    lines += `<path d="M${x1},${y1} C${x1},${mid} ${x2},${mid} ${x2},${y2}" fill="none" stroke="${pal.stroke}" stroke-width="1.5" opacity="0.4"/>`;
+  });
+
+  nodes.forEach(n => {
+    if (!pos[n.id]) return;
+    const { x, y } = pos[n.id];
+    const pal = getPalette(n, branchMap);
+    const isManager = hasChildren(n.id);
+    const fill = isManager ? pal.fillBold : pal.fill;
+    const strokeW = isManager ? '1.5' : '0.75';
+    const nameFW = isManager ? '700' : '600';
+    const init = initials(n.name);
+    const nameText = trunc(n.name, 19);
+    const roleText = trunc(n.role, 24);
+
+    boxes += `
+    <g class="node-group" onclick="openEdit('${n.id}')">
+      <rect class="node-ring" x="${x-2}" y="${y-2}" width="${NW+4}" height="${NH+4}" rx="11" fill="none" stroke="${pal.stroke}" stroke-width="1.5"/>
+      <rect class="node-rect" x="${x}" y="${y}" width="${NW}" height="${NH}" rx="9" fill="${fill}" stroke="${pal.stroke}" stroke-width="${strokeW}"/>
+      <circle cx="${x+22}" cy="${y+NH/2}" r="15" fill="${pal.avatar}"/>
+      <text x="${x+22}" y="${y+NH/2+5}" text-anchor="middle" fill="${pal.avtext}" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">${init}</text>
+      <text x="${x+44}" y="${y+27}" fill="${pal.text}" font-size="12" font-weight="${nameFW}" font-family="DM Sans,sans-serif">${nameText}</text>
+      ${roleText ? `<text x="${x+44}" y="${y+44}" fill="${pal.sub}" font-size="11" font-family="DM Sans,sans-serif">${roleText}</text>` : ''}
+    </g>`;
+  });
+
+  wrap.innerHTML = `<svg viewBox="0 0 ${svgW} ${svgH}" width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg">${lines}${boxes}</svg>`;
+}
+
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  nodes.forEach((n, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text3);font-size:11px;width:36px">${i+1}</td>
+      <td><input value="${esc(n.name)}" onchange="nodes[${i}].name=this.value;scheduleRender()" placeholder="Nume"></td>
+      <td><input value="${esc(n.role)}" onchange="nodes[${i}].role=this.value;scheduleRender()" placeholder="Titlu / rol"></td>
+      <td>
+        <select onchange="nodes[${i}].manager=this.value;scheduleRender()">
+          <option value="">— root —</option>
+          ${nodes.filter(x=>x.id!==n.id).map(x=>`<option value="${x.id}"${x.id===n.manager?' selected':''}>${esc(x.name)}</option>`).join('')}
+        </select>
+      </td>
+      <td><button class="del-btn" onclick="deleteById('${n.id}')">×</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function esc(s) { return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+let renderTimer = null;
+function scheduleRender() {
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(() => { renderChart(); }, 400);
+}
+
+function switchTab(t) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['chart','table','import'][i]===t));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+t).classList.add('active');
+  if (t === 'table') renderTable();
+  if (t === 'chart') renderChart();
+}
+
+function openEdit(id) {
+  editId = id;
+  const n = getNode(id);
+  document.getElementById('modal-title').textContent = n.name || 'Nod nou';
+  document.getElementById('f-name').value = n.name;
+  document.getElementById('f-role').value = n.role;
+  const sel = document.getElementById('f-manager');
+  sel.innerHTML = '<option value="">— Fără manager (root) —</option>';
+  nodes.forEach(x => {
+    if (x.id === id) return;
+    const opt = document.createElement('option');
+    opt.value = x.id;
+    opt.textContent = x.name + (x.role ? ' · ' + x.role.slice(0, 28) : '');
+    if (x.id === n.manager) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  // Render color swatches
+  const swatchWrap = document.getElementById('color-swatches');
+  swatchWrap.innerHTML = '';
+  // "Auto" / clear swatch
+  const clearBtn = document.createElement('div');
+  clearBtn.className = 'swatch-clear' + (!n.customColor ? ' active' : '');
+  clearBtn.title = 'Culoare automată (după ramură)';
+  clearBtn.textContent = '↺';
+  clearBtn.style.cssText = 'width:26px;height:26px;border-radius:50%;cursor:pointer;border:1.5px dashed var(--border2);background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text3);flex-shrink:0;';
+  clearBtn.onclick = () => { document.querySelectorAll('#color-swatches .swatch').forEach(s=>s.classList.remove('active')); clearBtn.style.borderColor='var(--text)'; clearBtn.dataset.selected='1'; document.querySelectorAll('#color-swatches [data-selected]').forEach(s=>{ if(s!==clearBtn) delete s.dataset.selected; }); };
+  clearBtn.dataset.colorKey = '';
+  swatchWrap.appendChild(clearBtn);
+  SWATCH_COLORS.forEach(sc => {
+    const s = document.createElement('div');
+    s.className = 'swatch' + (n.customColor === sc.key ? ' active' : '');
+    s.style.cssText = `width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0;background:${sc.circle};transition:transform 0.1s,border-color 0.1s;`;
+    s.title = sc.key;
+    s.dataset.colorKey = sc.key;
+    if (n.customColor === sc.key) { s.style.borderColor = 'var(--text)'; s.style.transform = 'scale(1.15)'; }
+    s.onclick = () => {
+      swatchWrap.querySelectorAll('[data-color-key]').forEach(el => {
+        el.style.borderColor = 'transparent';
+        el.style.transform = '';
+        if (el.classList.contains('swatch-clear')) el.style.borderColor = 'var(--border2)';
+        delete el.dataset.selected;
+      });
+      s.style.borderColor = 'var(--text)';
+      s.style.transform = 'scale(1.15)';
+      s.dataset.selected = '1';
+    };
+    swatchWrap.appendChild(s);
+  });
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(() => document.getElementById('f-name').focus(), 50);
+}
+
+function closeModal() { document.getElementById('edit-modal').classList.remove('open'); editId = null; }
+
+function saveEdit() {
+  const n = getNode(editId);
+  n.name = document.getElementById('f-name').value.trim() || n.name;
+  n.role = document.getElementById('f-role').value.trim();
+  n.manager = document.getElementById('f-manager').value;
+  // Save custom color
+  const selected = document.querySelector('#color-swatches [data-selected]');
+  if (selected) n.customColor = selected.dataset.colorKey || '';
+  closeModal(); renderChart(); renderTable();
+  toast('Salvat ✓');
+}
+
+function deleteNode() {
+  deleteById(editId);
+  closeModal();
+}
+
+function deleteById(id) {
+  nodes = nodes.filter(n => n.id !== id);
+  nodes.forEach(n => { if (n.manager === id) n.manager = ''; });
+  renderChart(); renderTable();
+  toast('Șters');
+}
+
+function addNode() {
+  const id = nid();
+  nodes.push({ id, name: 'Angajat nou', role: '', manager: nodes.length ? nodes[0].id : '' });
+  renderChart(); renderTable();
+  openEdit(id);
+}
+
+function doImport() {
+  const raw = document.getElementById('import-input').value.trim();
+  if (!raw) return;
+  const lines = raw.split('\n').filter(l => l.trim());
+  const newNodes = [];
+  const nameToId = {};
+  lines.forEach(line => {
+    const sep = line.includes('\t') ? '\t' : ',';
+    const parts = line.split(sep).map(s => s.trim());
+    if (!parts[0] || parts[0].toLowerCase() === 'employee' || parts[0].toLowerCase() === 'name' || parts[0].toLowerCase() === 'nume') return;
+    const name = parts[0].replace(/\n.*/,'').trim();
+    const role = parts[1] || '';
+    const id = nid();
+    nameToId[name] = id;
+    newNodes.push({ id, name, role, _mgr: parts[2] || '' });
+  });
+  newNodes.forEach(n => { n.manager = nameToId[n._mgr] || ''; delete n._mgr; });
+  if (newNodes.length) { nodes = newNodes; renderChart(); switchTab('chart'); toast(`${newNodes.length} angajați importați`); }
+}
+
+function loadSample() {
+  document.getElementById('import-input').value = `Nume,Titlu,Manager
+Ana Ionescu,CEO,
+Mihai Pop,CTO,Ana Ionescu
+Elena Stan,CFO,Ana Ionescu
+Andrei Marin,Lead Dev,Mihai Pop
+Sofia Lupu,Designer,Mihai Pop
+Radu Dima,Contabil,Elena Stan`;
+}
+
+function exportCSV() {
+  const rows = ['Employee,Manager', ...nodes.map(n => {
+    const mgr = getNode(n.manager);
+    const empCell = `"${n.name}\n${n.role}"`;
+    const mgrCell = mgr ? `"${mgr.name}\n${mgr.role}"` : '""';
+    return `${empCell},${mgrCell}`;
+  })];
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'organigrama_climb_again.csv'; a.click();
+  toast('CSV descărcat');
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+document.getElementById('edit-modal').addEventListener('click', e => { if (e.target === document.getElementById('edit-modal')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+renderChart();
+</script>
+</body>
+</html>

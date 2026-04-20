@@ -1,0 +1,192 @@
+[
+  {
+    "id": "n1",
+    "name": "Claudiu Miu",
+    "role": "Președinte",
+    "manager": ""
+  },
+  {
+    "id": "n2",
+    "name": "Daniel Mihalache",
+    "role": "Director Dezvoltare",
+    "manager": "n1"
+  },
+  {
+    "id": "n3",
+    "name": "Cristina Pascanu",
+    "role": "Director fundraising",
+    "manager": "n1"
+  },
+  {
+    "id": "n4",
+    "name": "Violeta Rusu",
+    "role": "Corporate Fundraising",
+    "manager": "n3"
+  },
+  {
+    "id": "n5",
+    "name": "Daniela Carabus",
+    "role": "Manager Fundraising",
+    "manager": "n3"
+  },
+  {
+    "id": "n6",
+    "name": "Mona Calinescu",
+    "role": "Director/manager comunicare",
+    "manager": "n3",
+    "customColor": "green"
+  },
+  {
+    "id": "n7",
+    "name": "Andreea Bucurica",
+    "role": "Specialist comunicare",
+    "manager": "n6"
+  },
+  {
+    "id": "n8",
+    "name": "Andreea Cucu",
+    "role": "Specialist comunicare",
+    "manager": "n6"
+  },
+  {
+    "id": "n9",
+    "name": "Antoaneta Barbu",
+    "role": "Director program dizabilitate + lot",
+    "manager": "n1"
+  },
+  {
+    "id": "n10",
+    "name": "Alina Nedelcu",
+    "role": "Manager dizab",
+    "manager": "n9"
+  },
+  {
+    "id": "n13",
+    "name": "Gratiela Dan",
+    "role": "Manager dizab",
+    "manager": "n9"
+  },
+  {
+    "id": "n11",
+    "name": "TBH / Ana in 2027?",
+    "role": "Manager commercial",
+    "manager": "n9",
+    "customColor": "gray"
+  },
+  {
+    "id": "n12",
+    "name": "Constantin Voicescu",
+    "role": "Kinetoterapeut",
+    "manager": "n9"
+  },
+  {
+    "id": "n14",
+    "name": "Ionela Oprea",
+    "role": "Director centru Iași",
+    "manager": "n9",
+    "additionalManagers": [
+      "n30"
+    ],
+    "customColor": "attention"
+  },
+  {
+    "id": "n15",
+    "name": "Liliana Badea",
+    "role": "Femeie de serviciu",
+    "manager": "n10",
+    "customColor": ""
+  },
+  {
+    "id": "n16",
+    "name": "Cristina Pisica",
+    "role": "Lucrator social (instructor TSA)",
+    "manager": "n10"
+  },
+  {
+    "id": "n17",
+    "name": "Ana Nedelcu",
+    "role": "Manager commercial București",
+    "manager": "n11"
+  },
+  {
+    "id": "n18",
+    "name": "Noris Popovici",
+    "role": "Receptioner Arad",
+    "manager": "n11"
+  },
+  {
+    "id": "n19",
+    "name": "Georgeta Ghengea",
+    "role": "Receptioner",
+    "manager": "n17"
+  },
+  {
+    "id": "n20",
+    "name": "Adrian Nitoiu / Stefan Dogaru",
+    "role": "Instructori",
+    "manager": "n17"
+  },
+  {
+    "id": "n21",
+    "name": "Cosmin Candoi / Razvan Nedu",
+    "role": "Antrenori",
+    "manager": "n17"
+  },
+  {
+    "id": "n22",
+    "name": "Daniel Trusca",
+    "role": "Lucrator social (instructor)",
+    "manager": "n17"
+  },
+  {
+    "id": "n23",
+    "name": "Alexandra?",
+    "role": "Manager dizab",
+    "manager": "n14"
+  },
+  {
+    "id": "n24",
+    "name": "Florin Mirea",
+    "role": "Coordonator administrativ",
+    "manager": "n14"
+  },
+  {
+    "id": "n25",
+    "name": "Daniel Andrei",
+    "role": "Instructor",
+    "manager": "n24"
+  },
+  {
+    "id": "n26",
+    "name": "Adrian Ciobanu / Florin Herciu",
+    "role": "Lucrator social/monitor",
+    "manager": "n24"
+  },
+  {
+    "id": "n27",
+    "name": "Denisa / Florin",
+    "role": "Receptioner",
+    "manager": "n14"
+  },
+  {
+    "id": "n28",
+    "name": "Adrian Badea",
+    "role": "Șef Șantier / tabără Nucșoara",
+    "manager": "n1",
+    "levelOffset": 1,
+    "customColor": "urgent"
+  },
+  {
+    "id": "n30",
+    "name": "To Be Hired",
+    "role": "Fractional CFO",
+    "manager": "n1",
+    "customColor": "gray"
+  },
+  {
+    "id": "n29",
+    "name": "Radu Ionescu",
+    "role": "Vicepreședinte",
+    "manager": ""
+  }
+]

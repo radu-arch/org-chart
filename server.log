@@ -1,0 +1,8 @@
+
+> climb-again-organigram@1.0.0 start
+> node server.js
+
+
+✓ Climb Again Organigramă app running at http://localhost:3000
+✓ Data is saved to: /sessions/gracious-dazzling-pascal/mnt/Org chart/data.json
+

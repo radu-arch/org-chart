@@ -1,0 +1,12 @@
+{
+  "name": "climb-again-organigram",
+  "version": "1.0.0",
+  "description": "Interactive organizational chart with persistent local storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
