@@ -224,8 +224,6 @@
     font-size: 12px; line-height: 1.55; max-width: 240px;
     box-shadow: var(--shadow-lg); pointer-events: none;
   }
-  #desc-tooltip ul { margin: 0; padding-left: 14px; }
-  #desc-tooltip li { margin-bottom: 2px; }
 
   /* Modal textarea override */
   .modal textarea {
@@ -308,7 +306,7 @@
     <div class="field"><label>Raportează la</label><select id="f-manager"></select></div>
     <div class="field">
       <label>Descriere poziție</label>
-      <textarea id="f-desc" placeholder="Descriere scurtă a rolului...&#10;Fiecare linie nouă = un bullet point"></textarea>
+      <textarea id="f-desc" placeholder="Descriere scurtă a rolului..."></textarea>
     </div>
     <div class="field">
       <label>Culoare nod</label>
@@ -728,9 +726,7 @@ function showDescTooltip(evt, id) {
   const tt = document.getElementById('desc-tooltip');
   const lines = n.description.split('\n').filter(l => l.trim());
   if (!lines.length) return;
-  tt.innerHTML = lines.length > 1
-    ? '<ul>' + lines.map(l => `<li>${esc(l.trim())}</li>`).join('') + '</ul>'
-    : esc(lines[0]);
+  tt.innerHTML = lines.map(l => esc(l)).join('<br>');
   tt.style.display = 'block';
   const x = evt.clientX + 14;
   const y = evt.clientY - 10;
