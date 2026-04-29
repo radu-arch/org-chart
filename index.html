@@ -216,6 +216,29 @@
     background: var(--accent-light); color: var(--accent);
   }
 
+  /* DESCRIPTION TOOLTIP */
+  #desc-tooltip {
+    display: none; position: fixed; z-index: 500;
+    background: var(--text); color: #fff;
+    padding: 10px 14px; border-radius: var(--radius-sm);
+    font-size: 12px; line-height: 1.55; max-width: 240px;
+    box-shadow: var(--shadow-lg); pointer-events: none;
+  }
+  #desc-tooltip ul { margin: 0; padding-left: 14px; }
+  #desc-tooltip li { margin-bottom: 2px; }
+
+  /* Modal textarea override */
+  .modal textarea {
+    width: 100%; height: 90px; padding: 8px 12px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    background: var(--surface2); color: var(--text);
+    resize: vertical; outline: none;
+    transition: border-color 0.15s; line-height: 1.5;
+  }
+  .modal textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,90,61,0.1); }
+  .modal textarea::placeholder { color: var(--text3); }
+
   /* TOAST */
   #toast {
     position: fixed; bottom: 24px; right: 24px; z-index: 999;
@@ -284,6 +307,10 @@
     <div class="field"><label>Titlu / Rol</label><input id="f-role" type="text"></div>
     <div class="field"><label>Raportează la</label><select id="f-manager"></select></div>
     <div class="field">
+      <label>Descriere poziție</label>
+      <textarea id="f-desc" placeholder="Descriere scurtă a rolului...&#10;Fiecare linie nouă = un bullet point"></textarea>
+    </div>
+    <div class="field">
       <label>Culoare nod</label>
       <div class="color-swatches" id="color-swatches"></div>
     </div>
@@ -301,6 +328,7 @@
   </div>
 </div>
 
+<div id="desc-tooltip"></div>
 <div id="toast"></div>
 
 <script>
@@ -443,6 +471,8 @@ function renderChart() {
     const nameText = trunc(n.name, 19);
     const roleText = trunc(n.role, 24);
 
+    const hasDesc = !!(n.description && n.description.trim());
+    const infoX = x + NW - 12, infoY = y + 12;
     boxes += `
     <g class="node-group" onclick="openEdit('${n.id}')">
       <rect class="node-ring" x="${x-2}" y="${y-2}" width="${NW+4}" height="${NH+4}" rx="11" fill="none" stroke="${pal.stroke}" stroke-width="1.5"/>
@@ -451,6 +481,10 @@ function renderChart() {
       <text x="${x+22}" y="${y+NH/2+5}" text-anchor="middle" fill="${pal.avtext}" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">${init}</text>
       <text x="${x+44}" y="${y+27}" fill="${pal.text}" font-size="12" font-weight="${nameFW}" font-family="DM Sans,sans-serif">${nameText}</text>
       ${roleText ? `<text x="${x+44}" y="${y+44}" fill="${pal.sub}" font-size="11" font-family="DM Sans,sans-serif">${roleText}</text>` : ''}
+      ${hasDesc ? `<g onclick="event.stopPropagation()" onmouseenter="showDescTooltip(event,'${n.id}')" onmouseleave="hideDescTooltip()" style="cursor:default">
+        <circle cx="${infoX}" cy="${infoY}" r="7.5" fill="${pal.avatar}" opacity="0.9"/>
+        <text x="${infoX}" y="${infoY+4}" text-anchor="middle" fill="${pal.avtext}" font-size="9" font-weight="700" font-family="DM Sans,sans-serif">i</text>
+      </g>` : ''}
     </g>`;
   });
 
@@ -542,6 +576,7 @@ function openEdit(id) {
     };
     swatchWrap.appendChild(s);
   });
+  document.getElementById('f-desc').value = n.description || '';
   document.getElementById('edit-modal').classList.add('open');
   setTimeout(() => document.getElementById('f-name').focus(), 50);
 }
@@ -553,6 +588,7 @@ function saveEdit() {
   n.name = document.getElementById('f-name').value.trim() || n.name;
   n.role = document.getElementById('f-role').value.trim();
   n.manager = document.getElementById('f-manager').value;
+  n.description = document.getElementById('f-desc').value.trim();
   // Save custom color
   const selected = document.querySelector('#color-swatches [data-selected]');
   if (selected) n.customColor = selected.dataset.colorKey || '';
@@ -684,6 +720,26 @@ async function loadData() {
   } catch (err) {
     console.error('Error loading data:', err);
   }
+}
+
+function showDescTooltip(evt, id) {
+  const n = getNode(id);
+  if (!n || !n.description) return;
+  const tt = document.getElementById('desc-tooltip');
+  const lines = n.description.split('\n').filter(l => l.trim());
+  if (!lines.length) return;
+  tt.innerHTML = lines.length > 1
+    ? '<ul>' + lines.map(l => `<li>${esc(l.trim())}</li>`).join('') + '</ul>'
+    : esc(lines[0]);
+  tt.style.display = 'block';
+  const x = evt.clientX + 14;
+  const y = evt.clientY - 10;
+  tt.style.left = Math.min(x, window.innerWidth - 260) + 'px';
+  tt.style.top = Math.max(4, y) + 'px';
+}
+
+function hideDescTooltip() {
+  document.getElementById('desc-tooltip').style.display = 'none';
 }
 
 document.getElementById('edit-modal').addEventListener('click', e => { if (e.target === document.getElementById('edit-modal')) closeModal(); });
